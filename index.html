@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishDefender</title>
+  <link rel="stylesheet" href="static/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .bi-shield-check {
+      color: #1455D1;
+    }
+    .defender {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+    
+  <div class="base">
+    <p class="title">Phish<span class="defender">Defender </span><i class="bi bi-shield-check"></i></p>
+    <div class="container">
+      <div class="banner">
+        <div class="banner-text">
+          <h2>BE CAREFUL!!!</h2>
+          <p>Check Your Safety Before Browsing</p>
+        </div>
+        <div class="content">
+          <form id="verifyForm">
+            <input type="text" id="websiteLink" placeholder="Paste Website Link Here">
+            <button type="submit" id="verify">Verify <i class="bi bi-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('verifyForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const url = document.getElementById('websiteLink').value;
+      if (!url) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please enter a URL!'
+        });
+        return;
+      }
+
+      Swal.fire({
+        title: 'Checking URL...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading()
+        }
+      });
+
+      try {
+        // Check whitelist
+        let response = await fetch('/check_whitelist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ url })
+        });
+        let result = await response.json();
+
+        if (result.status === "whitelisted") {
+          Swal.fire({
+            icon: 'success',
+            title: 'URL is whitelisted!',
+            showConfirmButton: false,
+            timer: 3000
+          });
+        } else {
+          Swal.fire({
+            icon: 'info',
+            title: 'URL is not in whitelist!',
+            showConfirmButton: false,
+            timer: 3000
+          });
+
+          setTimeout(async () => {
+            Swal.fire({
+              title: 'Checking URL...',
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading()
+              }
+            });
+
+            // Predict
+            response = await fetch('/predict', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ url })
+            });
+            result = await response.json();
+
+            Swal.fire({
+              icon: 'info',
+              title: `Prediction: ${result.prediction}`,
+              text: `Confidence: ${result.confidence}`
+            });
+          }, 3000);
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while processing your request.'
+        });
+      }
+    });
+    
+  </script>
+</body>
+</html>

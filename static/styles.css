@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.base {
+  background-color: #ffffff;
+  width: 100%; /* Sesuaikan dengan konten di dalamnya */
+  max-width: 600px; /* Atur lebar maksimum */
+  padding: 20px;
+}
+
+.container {
+  background-color: #ffffff;
+}
+
+.banner {
+  background: linear-gradient(to right, #5C88DA, #7EC6D0, #7ED0A9);
+  padding: 40px;
+  border-radius: 10px;
+  display: flex; /* Menggunakan flexbox */
+  flex-direction: column; /* Mengatur tata letak vertikal */
+}
+
+.banner-text {
+  text-align: center; /* Membuat teks menjadi rata tengah */
+  margin-bottom: 20px; /* Memberikan ruang di bawah teks */
+}
+
+.banner-text h2 {
+  color: white; /* Warna teks */
+  font-size: 24px; /* Ukuran font */
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.banner-text p {
+  color: white; /* Warna teks */
+  font-size: 16px; /* Ukuran font */
+  margin-bottom: 20px;
+  margin-top: 0px;
+}
+
+.content {
+  display: flex; /* Menggunakan flexbox */
+  align-items: center; /* Mengatur agar konten berada di tengah-tengah vertikal */
+}
+
+.banner form {
+  display: flex; /* Menggunakan flexbox */
+  align-items: center; /* Mengatur agar konten berada di tengah-tengah vertikal */
+  width: 100%; /* Lebar penuh */
+}
+
+.banner input[type="text"] {
+  flex: 3; /* Menggunakan proporsi 3:1 */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.banner button {
+  flex: 1; /* Menggunakan proporsi 1:1 */
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.banner button:hover {
+  background-color: #45a049;
+}
+
+.title {
+  font-size: 18px;
+  color: red; /* Warna untuk Phish */
+}
